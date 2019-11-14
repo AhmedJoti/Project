@@ -1,0 +1,22 @@
+{"properties": [
+  {
+    "name": "image.path",
+    "type": "java.lang.String",
+    "description": "A description for 'image.path'"
+  },
+  {
+    "name": "path",
+    "type": "java.lang.String",
+    "description": "A description for 'path'"
+  },
+  {
+    "name": "upload.path",
+    "type": "java.lang.String",
+    "description": "A description for 'upload.path'"
+  },
+  {
+    "name": "imageAgence.path",
+    "type": "java.lang.String",
+    "description": "A description for 'imageAgence.path'"
+  }
+]}

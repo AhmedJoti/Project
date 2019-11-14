@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/admin.xhtml">
+
+    <ui:define name="head">
+        <title>Rentcom</title>
+        <f:loadBundle var="msg" basename="messages"/>
+        <h:outputStylesheet library="css" name="style.css"/>
+    </ui:define>
+
+    <ui:define name="logo">
+        template web
+    </ui:define> 
+
+    <ui:define name="logo-mini">
+        Rentcom template web
+    </ui:define>
+
+  
+    
+    
+
+
+
+    <ui:define name="footer">
+
+        <div class="pull-right hidden-xs" style="color: gray">
+            <i>#{msg['app.version']}</i>
+        </div>
+
+    </ui:define>
+
+
+</ui:composition>

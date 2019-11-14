@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:adm="http://github.com/adminfaces"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	template="#{layoutMB.template}">
+
+	<ui:define name="title">
+        Car form
+    </ui:define>
+
+
+    <ui:define name="body">
+        <f:metadata>
+            <f:viewParam name="id" value="#{carFormBean.id}" converter="javax.faces.Long"/>
+            <!-- use view action if you are in a Java EE 7 server: <f:viewAction action="#{carFormBean.init()}"/>-->
+            <f:event type="preRenderView" listener="#{carFormBean.init}"/>
+        </f:metadata>
+
+        
+
+		
+			<p:messages showDetail="true" autoUpdate="true" />
+		<h:form id="form" prependId="false">
+			<p:focus rendered="#{empty carFormBean.id}" />
+
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<div id="main-buttons" class="hidden-sm hidden-xs">
+						<p:commandButton value="Save" action="#{carFormBean.save}"
+							update="@form" icon="fa fa-check" styleClass="btn-primary" />
+						<p:spacer width="5" rendered="#{carFormBean.isNew()}" />
+						<p:commandButton value="Clear" action="#{carFormBean.clear}"
+							process="@this" icon="fa fa-refresh" styleClass="btn-success"
+							update="@form" rendered="#{carFormBean.isNew()}"
+							resetValues="true" />
+						<p:spacer width="5" rendered="#{not carFormBean.isNew()}" />
+
+						<p:commandButton value="Delete" action="#{carFormBean.remove}"
+							process="@this" rendered="#{not carFormBean.isNew()}"
+							icon="fa fa-trash" styleClass="btn-danger">
+							<f:setPropertyActionListener value="true"
+								target="#{facesContext.externalContext.flash.keepMessages}" />
+							<p:confirm header="Confirmation" message="Are you sure?"
+								icon="ui-icon-danger" />
+						</p:commandButton>
+						<p:spacer width="5" />
+						<p:commandButton value="Back" immediate="true"
+							action="car-list?faces-redirect=true" process="@this"
+							icon="fa fa-reply" />
+					</div>
+					<p:splitButton value="Save" action="#{carFormBean.save}"
+						update="@form" icon="fa fa-check"
+						styleClass="hidden-md hidden-lg btn-primary">
+						<p:menuitem value="Reset" action="#{carFormBean.clear}"
+							process="@this" update="@form" rendered="#{carFormBean.isNew()}"
+							resetValues="true" icon="fa fa-refresh" />
+						<p:menuitem value="Delete" action="#{carFormBean.remove}"
+							process="@this" rendered="#{not carFormBean.isNew()}"
+							icon="fa fa-trash">
+							<p:confirm header="Confirmation" message="Are you sure?"
+								icon="ui-icon-danger" />
+						</p:menuitem>
+						<p:separator />
+						
+					</p:splitButton>
+
+					<p:separator />
+ 
+					<div class="ui-g ui-fluid">
+
+
+						<div class="ui-sm-12 ui-md-2 ui-lg-1">
+							<p:outputLabel for="ide" value="ID Car" />
+						</div>
+						<div class="ui-sm-12 ui-md-4 ui-lg-5">
+							<p:inputText id="ide" value="#{carFormBean.car.id}"
+								size="4" readonly="#{carFormBean.car.id == null}" styleClass="form-control"
+								style="width: 100%" />
+						</div>
+
+
+
+                    
+                        <div class="ui-sm-12 ui-md-2 ui-lg-1">
+                            <p:outputLabel value="Marque" for="inptNyamer"/>
+                        </div>
+                        <div class="ui-sm-12 ui-md-4 ui-lg-5" >
+                            <p:selectOneMenu id="inptNyamer" value="#{carFormBean.idMarqueSelected}"      filter="true" filterMatchMode="startsWith"
+								effect="fold" dynamic="true"  >
+								<p:ajax  listener="#{carFormBean.getallmodel}" update="inptModel"/>
+								<f:selectItem itemLabel="Selectionner un Voiture" />
+								
+								<f:selectItems value="#{carFormBean.getall_marque}" var="marque" itemValue="#{marque.id}" itemLabel="#{marque.nom}"/>
+								</p:selectOneMenu>
+                        </div>
+                        
+                         <div class="ui-sm-12 ui-md-2 ui-lg-1" >
+                            <p:outputLabel value="Model" for="inptModel"/>
+                        </div>
+                        
+                        <div class="ui-sm-12 ui-md-4 ui-lg-5" >
+                       		   <p:selectOneMenu id="inptModel" value="#{carFormBean.idModelSelected}"     filter="true" filterMatchMode="startsWith"
+								effect="fold" dynamic="true" >
+                              	  <f:selectItem itemLabel="Selectionner un Model" noSelectionOption="true"/>
+                              								
+	                              <f:selectItems   value="#{carFormBean.listFinal_Model}"   var="model" itemValue="#{model.id}" itemLabel="#{model.nom}"/>
+	                              
+	                            </p:selectOneMenu>
+                              
+                        </div>
+                        <sec:authorize access="hasAnyRole('ADMIN')">
+                        
+                         <div class="ui-sm-12 ui-md-2 ui-lg-1">
+                            <p:outputLabel value="Agence" for="inptagence" />
+                        </div>
+                        
+                        <div class="ui-sm-12 ui-md-4 ui-lg-5"  >
+                       		   <p:selectOneMenu id="inptagence"  value="#{carFormBean.idAgenceSelected}"      filter="true" filterMatchMode="startsWith"
+								effect="fold" dynamic="true">
+                              	  <f:selectItem itemLabel="Selectionner une Agence" noSelectionOption="true" />
+                              	  
+                              								
+	                              <f:selectItems value="#{carFormBean.getall_agence}"  var="agence" itemValue="#{agence.id}" itemLabel="#{agence.nom}" />
+	                            </p:selectOneMenu>
+                              
+                        </div>
+                        
+                        </sec:authorize>
+    				   
+                        
+						<div class="ui-sm-12 ui-md-2 ui-lg-1">
+							<p:outputLabel value="Imatruiculation" for="inptnum" />
+						</div>
+						<div class="ui-sm-12 ui-md-4 ui-lg-5">
+							<p:inputText id="inptnum" value="#{carFormBean.car.immVoi}" />
+						</div>
+						
+					<div class="ui-sm-12 ui-md-2 ui-lg-1">
+							<p:outputLabel value="Climatisation" for="inptClima" />
+						</div>
+						<div class="ui-sm-12 ui-md-4 ui-lg-5">
+							<p:selectOneRadio id="inptClima" value="#{carFormBean.car.clim}"
+								unselectable="true">
+								<f:selectItem itemLabel="Yes" itemValue="true" />
+								<f:selectItem itemLabel="No" itemValue="false" />
+							</p:selectOneRadio>
+						</div>
+						
+						
+						
+						
+						<div class="ui-sm-12 ui-md-2 ui-lg-1">
+							<p:outputLabel value="boite auto" for="inptBauto" />
+						</div>
+						<div class="ui-sm-12 ui-md-4 ui-lg-5">
+							<p:selectOneRadio id="inptBauto" value="#{carFormBean.car.bva}"
+								unselectable="true">
+								<f:selectItem itemLabel="Yes" itemValue="true" />
+								<f:selectItem itemLabel="No" itemValue="false" />
+							</p:selectOneRadio>
+						</div>
+						
+						<div class="ui-sm-12 ui-md-2 ui-lg-1">
+							<p:outputLabel value="KM" for="inptdateN" />
+						</div>
+						<div class="ui-sm-12 ui-md-4 ui-lg-5">
+							<p:inputText id="inptdateN" value="#{carFormBean.car.kmVoiture}" />
+						</div>
+						
+						
+						
+						<div class="ui-sm-12 ui-md-2 ui-lg-1">
+							<p:outputLabel value="NBR S" for="inptAgence" />
+						</div>
+						<div class="ui-sm-12 ui-md-4 ui-lg-5">
+							<p:inputText id="inptAgence" value="#{carFormBean.car.nbrSiege}" />
+						</div>
+						
+						<div class="ui-sm-12 ui-md-2 ui-lg-1">
+							<p:outputLabel value="Type Car" for="inpttypeCar" />
+						</div>
+						<div class="ui-sm-12 ui-md-4 ui-lg-5">
+							<p:selectOneMenu id="inpttypeCar"
+								value="#{carFormBean.car.typeVoiture}" effect="fold"  filter="true" filterMatchMode="startsWith"
+								dynamic="true">
+								<f:selectItem itemLabel="Selectionner un type de Carburant :" />
+								<f:selectItem   itemLabel="Berline" itemValue="Berline"/>
+								<f:selectItem   itemLabel="Break" itemValue="Break"/>
+								<f:selectItem   itemLabel="Monospace" itemValue="Monospace"/>
+								<f:selectItem   itemLabel="Citadine" itemValue="Citadine"/>
+								<f:selectItem   itemLabel="Coupé et Cabriolet" itemValue="Coupé et Cabriolet"/>
+								<f:selectItem   itemLabel="Pick-up" itemValue="Pick-up"/>
+								<f:selectItem   itemLabel="4x4" itemValue="4x4"/>
+								<f:selectItem   itemLabel="SUV" itemValue="SUV"/>
+								<f:selectItem   itemLabel="Crossovers" itemValue="crossovers"/>
+								<f:selectItem   itemLabel="Fourgonnettes" itemValue="Fourgonnette"/>
+							</p:selectOneMenu>
+						</div>
+						
+						
+						
+							<div class="ui-sm-12 ui-md-2 ui-lg-1">
+							<p:outputLabel value="NBR P" for="inptdateNe" />
+						</div>
+						<div class="ui-sm-12 ui-md-4 ui-lg-5">
+							<p:inputText id="inptdateNe" value="#{carFormBean.car.nbrPorte}" />
+						</div>
+						<div class="ui-sm-12 ui-md-2 ui-lg-1">
+							<p:outputLabel value="Date MEC" for="inpdatemc" />
+						</div>
+						<div class="ui-sm-12 ui-md-4 ui-lg-5">
+							<p:calendar id="inpdatemc" value="#{carFormBean.car.dateMEC}"
+								pattern="dd-MM-yyyy" />
+						</div>
+						
+						<div class="ui-sm-12 ui-md-2 ui-lg-1">
+							<p:outputLabel value="politique carB" for="inptpol" />
+						</div>
+						<div class="ui-sm-12 ui-md-4 ui-lg-5">
+							<p:selectOneRadio id="inptpol" value="#{carFormBean.car.polCarbfull}"
+								unselectable="true">
+								<f:selectItem itemLabel="Yes" itemValue="true"/>
+								<f:selectItem itemLabel="No" itemValue="false"/>
+							</p:selectOneRadio>
+						</div>
+						
+						
+						<div class="ui-sm-12 ui-md-2 ui-lg-1">
+							<p:outputLabel value="puissance" for="inptdates" />
+						</div>
+						<div class="ui-sm-12 ui-md-4 ui-lg-5">
+							<p:inputText id="inptdates" value="#{carFormBean.car.puiFisc}" />
+						</div>
+						
+						
+						
+							<div class="ui-sm-12 ui-md-2 ui-lg-1">
+							<p:outputLabel value="Etat" for="inptetat" />
+						</div>
+						<div class="ui-sm-12 ui-md-4 ui-lg-5">
+							<p:selectOneRadio id="inptetat" value="#{carFormBean.car.etat}"
+								unselectable="true">
+								<f:selectItem itemLabel="En service" itemValue="true" />
+								<f:selectItem itemLabel="Hors service" itemValue="false" />
+							</p:selectOneRadio>
+						</div>
+						
+						
+					
+						
+						<div class="ui-sm-12 ui-md-2 ui-lg-1">
+							<p:outputLabel value="carburant" for="inptcarburant" />
+						</div>
+						<div class="ui-sm-12 ui-md-4 ui-lg-5">
+							<p:selectOneMenu id="inptcarburant"
+								value="#{carFormBean.car.carburant}" effect="fold"  filter="true" filterMatchMode="startsWith"
+								dynamic="true">
+								<f:selectItem itemLabel="Selectionner un type de Carburant :" />
+								<f:selectItem   itemLabel="Diesel" itemValue="Diesel" />
+								<f:selectItem   itemLabel="Essence" itemValue="Essence" />
+								<f:selectItem   itemLabel="Hybride" itemValue="Hybride" />
+								
+							</p:selectOneMenu>
+						</div>
+						
+						
+						
+						<div class="ui-sm-12 ui-md-2 ui-lg-1">
+							<p:outputLabel value="Couleur" for="inptcouleur" />
+						</div>
+						<div class="ui-sm-12 ui-md-4 ui-lg-5">
+							<p:selectOneMenu id="inptcouleur"
+								value="#{carFormBean.car.couleur}" effect="fold"  filter="true" filterMatchMode="startsWith"
+								dynamic="true">
+								<f:selectItem itemLabel="Selectionner une Couleur :" />
+								<f:selectItem   itemLabel="Red" itemValue="Red" />
+								<f:selectItem   itemLabel="Black" itemValue="Black" />
+								<f:selectItem   itemLabel="Gris" itemValue="Gris" />
+								<f:selectItem   itemLabel="white" itemValue="White" />
+							</p:selectOneMenu>
+						</div>
+
+ 						<div class="ui-sm-12 ui-md-2 ui-lg-1">
+							<p:outputLabel value="num Chassis" for="inptNchasi" />
+						</div>
+						<div class="ui-sm-12 ui-md-4 ui-lg-5">
+							<p:inputText id="inptNchasi" value="#{carFormBean.car.numChassis}" />
+						</div>
+						
+            
+					</div>
+				</div>
+			</div>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+				styleClass="box-danger box-solid">
+				<p:commandButton value="Yes" type="button"
+					styleClass="btn-material btn-primary ui-confirmdialog-yes"
+					icon="fa fa-check" />
+				<p:commandButton value="No" type="button"
+					styleClass="btn-material btn-danger ui-confirmdialog-no"
+					icon="fa fa-close" />
+			</p:confirmDialog>
+		</h:form>
+
+
+	</ui:define>
+
+</ui:composition>

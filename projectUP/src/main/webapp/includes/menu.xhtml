@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+	<ul class="sidebar-menu tree" data-widget="tree">
+		<li><p:link outcome="/index" onclick="clearBreadCrumbs()">
+				<i class="fa fa-home"></i>
+				<span>Home</span>
+			</p:link></li>
+		<li class="header">General</li>
+
+
+		<sec:authorize access="hasAnyRole('ADMIN', 'USER')">
+			<li class="treeview"><a href="#"><i
+					class="fa fa-file-text-o"></i> <span>Cars</span> <i
+					class="fa fa-angle-left pull-right"></i> </a>
+				<ul class="treeview-menu">
+
+
+					<li><p:link outcome="/user/car-list">
+							<span>List Cars</span>
+							<i class="fa fa-th-list pull-right"></i>
+						</p:link></li>
+
+					<li><p:link outcome="/admin/carAlerte-list">
+							<span>List Alerte</span>
+							<i class="fa fa-th-list pull-right"></i>
+						</p:link></li>
+
+
+					<li><p:link outcome="/user/car-form">
+							<span>New Car</span>
+							<i class="fa fa-plus-circle pull-right"></i>
+						</p:link></li>
+					<li><p:link outcome="/admin/carAlerte-form">
+							<span>New Alerte Car</span>
+							<i class="fa fa-plus-circle pull-right"></i>
+						</p:link></li>
+				</ul></li>
+		</sec:authorize>
+
+
+
+		<sec:authorize access="hasAnyRole('ADMIN')">
+			<li class="treeview"><a href="#"> <i
+					class="fa fa-file-text-o"></i> <span>Utilisateur</span> <i
+					class="fa fa-angle-left pull-right"></i>
+			</a>
+				<ul class="treeview-menu">
+
+					<li><p:link outcome="/admin/utilisateur-form">
+							<span>New Utilisateur</span>
+							<i class="fa fa-plus-circle pull-right"></i>
+						</p:link></li>
+					<li><p:link outcome="/admin/client-form">
+							<span>New Client</span>
+							<i class="fa fa-plus-circle pull-right"></i>
+						</p:link></li>
+					<li><p:link outcome="/admin/agent-form">
+							<span>New Agent</span>
+							<i class="fa fa-plus-circle pull-right"></i>
+						</p:link></li>
+
+					<li><p:link outcome="/admin/utilisateur-list">
+							<span>List Utilisateur</span>
+							<i class="fa fa-plus-circle pull-right"></i>
+						</p:link></li>
+
+					<li><p:link outcome="/admin/list-client">
+							<span>List Client</span>
+							<i class="fa fa-th-list pull-right"></i>
+						</p:link></li>
+
+
+					<li><p:link outcome="/admin/agent-list">
+							<span>List Agent</span>
+							<i class="fa fa-th-list pull-right"></i>
+						</p:link></li>
+
+				</ul></li>
+		</sec:authorize>
+
+		<sec:authorize access="hasAnyRole('ADMIN')">
+			<li class="treeview"><a href="#"> <i
+					class="fa fa-file-text-o"></i> <span>Type d'alerte</span> <i
+					class="fa fa-angle-left pull-right"></i>
+			</a>
+				<ul class="treeview-menu">
+					<li><p:link outcome="/admin/alerteType-list">
+							<span>List Type d'alerte</span>
+							<i class="fa fa-th-list pull-right"></i>
+						</p:link></li>
+					<li><p:link outcome="/admin/typeAlerte-form">
+							<span>New Type d'alerte</span>
+							<i class="fa fa-plus-circle pull-right"></i>
+						</p:link></li>
+				</ul></li>
+		</sec:authorize>
+
+
+
+		<sec:authorize access="hasAnyRole('ADMIN')">
+			<li class="treeview"><a href="#"><i
+					class="fa fa-file-text-o"></i> <span>Rôle</span> <i
+					class="fa fa-angle-left pull-right"></i> </a>
+				<ul class="treeview-menu">
+					<li><p:link outcome="/admin/role-list">
+							<span>List Rôle</span>
+							<i class="fa fa-th-list pull-right"></i>
+						</p:link></li>
+					<li><p:link outcome="/admin/role-form">
+							<span>New Rôle</span>
+							<i class="fa fa-plus-circle pull-right"></i>
+						</p:link></li>
+				</ul></li>
+		</sec:authorize>
+<sec:authorize access="hasAnyRole('ADMIN')">
+		<li class="treeview"><a href="#"><i class="fa fa-file-text-o"></i>
+				<span>Agence</span> <i class="fa fa-angle-left pull-right"></i> </a>
+			<ul class="treeview-menu">
+				<li><p:link outcome="/admin/agence-list">
+						<span>Liste Agences</span>
+
+						<i class="fa fa-th-list pull-right"></i>
+					</p:link></li>
+				<li><p:link outcome="/admin/agence-form">
+						<span>New Agences</span>
+						<i class="fa fa-plus-circle pull-right"></i>
+					</p:link></li>
+
+				<li><p:link outcome="/admin/ville-list">
+						<span>Liste Villes</span>
+						<i class="fa fa-th-list pull-right"></i>
+					</p:link></li>
+				<li><p:link outcome="/admin/ville-form">
+						<span>New Ville</span>
+						<i class="fa fa-plus-circle pull-right"></i>
+					</p:link></li>
+			</ul></li>
+		<li class="treeview"><a href="#"><i class="fa fa-file-text-o"></i>
+				<span>Avis</span> <i class="fa fa-angle-left pull-right"></i> </a>
+			<ul class="treeview-menu">
+
+				<li><p:link outcome="/admin/avisCar-list">
+						<span>Liste Avis Voitures</span>
+						<i class="fa fa-th-list pull-right"></i>
+					</p:link></li>
+				<li><p:link outcome="/admin/avisCar-form">
+						<span>New Avis Voiture </span>
+						<i class="fa fa-plus-circle pull-right"></i>
+					</p:link></li>
+			
+				<li><p:link outcome="/admin/avisAgence-list">
+						<span>Liste AvisAgences</span>
+						<i class="fa fa-th-list pull-right"></i>
+					</p:link></li>
+				<li><p:link outcome="/admin/avisAgence-form">
+						<span>New AvisAgences</span>
+						<i class="fa fa-plus-circle pull-right"></i>
+					</p:link></li>
+				
+			</ul></li>
+			<li class="treeview"><a href="#"><i class="fa fa-file-text-o"></i>
+				<span>Reservation</span> <i class="fa fa-angle-left pull-right"></i> </a>
+			<ul class="treeview-menu">
+
+				<li><p:link outcome="/admin/reservation-list">
+						<span>Liste reservation</span>
+						<i class="fa fa-th-list pull-right"></i>
+					</p:link></li>
+				<li><p:link outcome="/admin/reservation-form">
+						<span>New Reservation </span>
+						<i class="fa fa-plus-circle pull-right"></i>
+					</p:link></li>
+			
+		
+				
+			</ul></li>
+			</sec:authorize>
+
+	</ul>
+
+</ui:composition>
