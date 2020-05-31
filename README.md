@@ -1,4 +1,4 @@
-//ENGlish
+//ENGLISH
 
 This repository contains two Web JEE applications (Contact and Cinema) based on a BackEnd part developed using the Spring Framework and the FrontEnd part developed using the Framework (Angular 4 for the Contact application and Angular 7 for the Cinema application). It includes the following parts:
 
